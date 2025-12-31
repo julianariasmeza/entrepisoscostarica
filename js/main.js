@@ -2,11 +2,10 @@
 console.log("Entrepisos Costa Rica - sitio cargado correctamente");
 
 // ======================================================
-// MENÚ MÓVIL FULLSCREEN (ESTILO APP)
+// MENÚ MÓVIL FULLSCREEN (OVERLAY NEGRO)
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.querySelector(".menu-toggle");
-  const closeMenu = document.querySelector(".close-menu");
   const navList = document.querySelector(".nav-list");
   const navLinks = document.querySelectorAll(".nav-list a");
   const body = document.body;
@@ -27,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const closeMenuFn = () => {
+  const closeMenu = () => {
     navList.classList.remove("active");
     menuToggle.classList.remove("active");
     body.classList.remove("menu-open");
@@ -39,22 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   menuToggle.addEventListener("click", () => {
-    navList.classList.contains("active") ? closeMenuFn() : openMenu();
+    navList.classList.contains("active") ? closeMenu() : openMenu();
   });
 
-  if (closeMenu) {
-    closeMenu.addEventListener("click", closeMenuFn);
-  }
-
   navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      closeMenuFn();
-    });
+    link.addEventListener("click", closeMenu);
   });
 });
 
 // ======================================================
-// HEADER - EFECTO DE SOMBRA AL SCROLL
+// HEADER - SOMBRA AL HACER SCROLL
 // ======================================================
 const header = document.querySelector(".header");
 
@@ -137,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================================================
-// SECCIÓN ACTIVA EN MENÚ (SCROLL)
+// SECCIÓN ACTIVA EN MENÚ (POR SCROLL)
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("section[id]");
@@ -148,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sections.forEach(section => {
       const sectionTop = section.offsetTop - 120;
-      if (scrollY >= sectionTop) {
+      if (window.scrollY >= sectionTop) {
         current = section.getAttribute("id");
       }
     });
@@ -189,11 +182,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // LOG DE TIEMPO DE CARGA (DEBUG)
 // ======================================================
 window.addEventListener("load", () => {
-  if (window.performance?.timing) {
+  if (window.performance && window.performance.timing) {
     const time =
       window.performance.timing.domContentLoadedEventEnd -
       window.performance.timing.navigationStart;
     console.log(`Tiempo de carga: ${time} ms`);
   }
 });
+
 
