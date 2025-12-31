@@ -9,6 +9,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   color: #1a1a1a;
@@ -54,7 +59,7 @@ body {
 }
 
 .logo img {
-  height: 55px; /* Desktop */
+  height: 55px;
   width: auto;
   display: block;
 }
@@ -80,7 +85,7 @@ body {
   text-transform: uppercase;
 }
 
-/* ================= NAVEGACIÓN ================= */
+/* ================= NAVEGACIÓN DESKTOP ================= */
 .nav {
   position: relative;
 }
@@ -125,7 +130,7 @@ body {
   color: #f5c400;
 }
 
-/* ================= MENÚ MÓVIL ================= */
+/* ================= BOTÓN HAMBURGUESA ================= */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -139,7 +144,7 @@ body {
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background-color: #fff;
+  background-color: #ffffff;
   transition: all 0.3s ease;
 }
 
@@ -210,34 +215,6 @@ body {
   line-height: 1.7;
 }
 
-.hero-features {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #fff;
-  font-weight: 600;
-}
-
-.feature-icon {
-  width: 24px;
-  height: 24px;
-  background-color: #f5c400;
-  color: #000;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
 /* ================= BOTONES ================= */
 .btn-primary {
   display: inline-block;
@@ -274,56 +251,6 @@ body {
   color: #000;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 1.7rem;
-  }
-
-  .hero-description {
-    font-size: 1rem;
-  }
-}
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-@media (max-width: 768px) {
-
-  .header {
-    padding: 0.8rem 0;
-  }
-
-  .header-content {
-    padding: 0 1rem;
-  }
-
-  .logo-link {
-    gap: 0.6rem;
-  }
-
-  .logo img {
-    height: 40px; /* un poco más compacto */
-  }
-
-  .logo-title {
-    font-size: 0.95rem;
-    white-space: nowrap; /* evita que se parta */
-  }
-
-  .logo-subtitle {
-    font-size: 0.65rem;
-  }
-}
-@media (max-width: 480px) {
-  .hero {
-    padding: 4rem 0;
-  }
-
-  .hero-description {
-    padding: 0 0.5rem;
-  }
-}
 /* ================= WHATSAPP FLOAT ================= */
 .whatsapp-float {
   position: fixed;
@@ -338,7 +265,7 @@ html, body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  z-index: 2000;
+  z-index: 3000;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -352,8 +279,91 @@ html, body {
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
 }
 
-/* Ajuste en móviles */
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: flex;
+    z-index: 3001;
+  }
+
+  /* MENÚ MÓVIL FULLSCREEN NEGRO */
+  .nav-list {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+
+    z-index: 2500;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-list.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav-list li {
+    list-style: none;
+  }
+
+  .nav-list li a {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .nav-list li a:hover,
+  .nav-list li a.active {
+    color: #f5c400;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  .logo-title {
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .logo-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
+
 @media (max-width: 480px) {
+  .hero {
+    padding: 4rem 0;
+  }
+
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+
   .whatsapp-float {
     width: 52px;
     height: 52px;
@@ -367,88 +377,12 @@ html, body {
   }
 }
 
-/* ================= MENÚ MÓVIL OVERLAY FULLSCREEN ================= */
-@media (max-width: 768px) {
-
-/* Botón hamburguesa */
-.menu-toggle {
-  display: flex;
-  z-index: 3000;
-  position: relative;
-}
-
-/* Menú pantalla completa con fondo negro */
-.nav-list {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000000;
-
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2.5rem;
-
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-100%);
-  transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
-
-  z-index: 2500;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-list.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.nav-list li {
-  list-style: none;
-}
-
-.nav-list li a {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #ffffff;
-}
-
-.nav-list li a:hover,
-.nav-list li a.active {
-  color: #f5c400;
-}
-
-/* Ajustes visuales mobile */
-.logo img {
-  height: 40px;
-}
-
-.logo-title {
-  font-size: 0.95rem;
-  white-space: nowrap;
-}
-
-.logo-subtitle {
-  font-size: 0.65rem;
-}
-
-.hero h1 {
-  font-size: 2rem;
-}
-}
-
-/* Bloqueo de scroll cuando el menú está abierto */
+/* ================= BLOQUEO DE SCROLL ================= */
 body.menu-open {
-overflow: hidden;
-position: fixed;
-width: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
+
   
     
