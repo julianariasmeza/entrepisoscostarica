@@ -2,51 +2,59 @@
 console.log("Entrepisos Costa Rica - sitio cargado correctamente");
 
 // ======================================================
-// MENÚ MÓVIL FULLSCREEN
+// MENÚ MÓVIL FULLSCREEN (ESTILO APP)
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.querySelector(".menu-toggle");
+  const closeMenu = document.querySelector(".close-menu");
   const navList = document.querySelector(".nav-list");
   const navLinks = document.querySelectorAll(".nav-list a");
   const body = document.body;
 
   if (!menuToggle || !navList) return;
 
-  menuToggle.addEventListener("click", () => {
-    const isOpen = navList.classList.toggle("active");
-    menuToggle.classList.toggle("active", isOpen);
-    body.classList.toggle("menu-open", isOpen);
+  const spans = menuToggle.querySelectorAll("span");
 
-    const spans = menuToggle.querySelectorAll("span");
-    if (isOpen) {
+  const openMenu = () => {
+    navList.classList.add("active");
+    menuToggle.classList.add("active");
+    body.classList.add("menu-open");
+
+    if (spans.length === 3) {
       spans[0].style.transform = "rotate(45deg) translate(6px, 6px)";
       spans[1].style.opacity = "0";
       spans[2].style.transform = "rotate(-45deg) translate(6px, -6px)";
-    } else {
-      spans.forEach(span => {
-        span.style.transform = "none";
-        span.style.opacity = "1";
-      });
     }
+  };
+
+  const closeMenuFn = () => {
+    navList.classList.remove("active");
+    menuToggle.classList.remove("active");
+    body.classList.remove("menu-open");
+
+    spans.forEach(span => {
+      span.style.transform = "none";
+      span.style.opacity = "1";
+    });
+  };
+
+  menuToggle.addEventListener("click", () => {
+    navList.classList.contains("active") ? closeMenuFn() : openMenu();
   });
+
+  if (closeMenu) {
+    closeMenu.addEventListener("click", closeMenuFn);
+  }
 
   navLinks.forEach(link => {
     link.addEventListener("click", () => {
-      navList.classList.remove("active");
-      menuToggle.classList.remove("active");
-      body.classList.remove("menu-open");
-
-      const spans = menuToggle.querySelectorAll("span");
-      spans.forEach(span => {
-        span.style.transform = "none";
-        span.style.opacity = "1";
-      });
+      closeMenuFn();
     });
   });
 });
 
 // ======================================================
-// HEADER - EFECTO SCROLL
+// HEADER - EFECTO DE SOMBRA AL SCROLL
 // ======================================================
 const header = document.querySelector(".header");
 
@@ -65,24 +73,25 @@ if (header) {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", e => {
     const target = document.querySelector(anchor.getAttribute("href"));
-    if (target) {
-      e.preventDefault();
-      const headerHeight = header ? header.offsetHeight : 0;
-      const position =
-        target.getBoundingClientRect().top +
-        window.pageYOffset -
-        headerHeight;
+    if (!target) return;
 
-      window.scrollTo({
-        top: position,
-        behavior: "smooth"
-      });
-    }
+    e.preventDefault();
+
+    const headerHeight = header ? header.offsetHeight : 0;
+    const position =
+      target.getBoundingClientRect().top +
+      window.pageYOffset -
+      headerHeight;
+
+    window.scrollTo({
+      top: position,
+      behavior: "smooth"
+    });
   });
 });
 
 // ======================================================
-// ANIMACIONES DE ENTRADA (SERVICIOS / VENTAJAS)
+// ANIMACIONES DE ENTRADA (SECCIONES)
 // ======================================================
 const observerOptions = {
   threshold: 0.15,
@@ -111,35 +120,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================================================
-// ANIMACIÓN DE ENTRADA HERO
+// ANIMACIÓN HERO
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const hero = document.querySelector(".hero-content");
-  if (hero) {
-    hero.style.opacity = "0";
-    hero.style.transform = "translateY(20px)";
-    hero.style.transition = "all 0.8s ease";
+  if (!hero) return;
 
-    setTimeout(() => {
-      hero.style.opacity = "1";
-      hero.style.transform = "translateY(0)";
-    }, 100);
-  }
+  hero.style.opacity = "0";
+  hero.style.transform = "translateY(20px)";
+  hero.style.transition = "all 0.8s ease";
+
+  setTimeout(() => {
+    hero.style.opacity = "1";
+    hero.style.transform = "translateY(0)";
+  }, 100);
 });
 
 // ======================================================
-// DETECCIÓN DE PÁGINA ACTIVA EN EL MENÚ
+// SECCIÓN ACTIVA EN MENÚ (SCROLL)
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
-  const currentPage =
-    window.location.pathname.split("/").pop() || "index.html";
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-list a");
 
-  document.querySelectorAll(".nav-list a").forEach(link => {
-    link.classList.toggle(
-      "active",
-      link.getAttribute("href") === currentPage
-    );
-  });
+  const activateLink = () => {
+    let current = "";
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120;
+      if (scrollY >= sectionTop) {
+        current = section.getAttribute("id");
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.toggle(
+        "active",
+        link.getAttribute("href") === `#${current}`
+      );
+    });
+  };
+
+  window.addEventListener("scroll", activateLink);
 });
 
 // ======================================================
@@ -167,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // LOG DE TIEMPO DE CARGA (DEBUG)
 // ======================================================
 window.addEventListener("load", () => {
-  if (window.performance && window.performance.timing) {
+  if (window.performance?.timing) {
     const time =
       window.performance.timing.domContentLoadedEventEnd -
       window.performance.timing.navigationStart;
