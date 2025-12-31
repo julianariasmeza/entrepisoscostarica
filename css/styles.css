@@ -9,11 +9,6 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
 body {
   font-family: Arial, Helvetica, sans-serif;
   color: #1a1a1a;
@@ -59,8 +54,9 @@ body {
 }
 
 .logo img {
-  height: 55px;
+  height: 55px; /* Desktop */
   width: auto;
+  display: block;
 }
 
 .logo-text {
@@ -73,6 +69,7 @@ body {
   font-size: 1.15rem;
   font-weight: 800;
   color: #ffffff;
+  letter-spacing: -0.3px;
 }
 
 .logo-subtitle {
@@ -83,7 +80,7 @@ body {
   text-transform: uppercase;
 }
 
-/* ================= NAVEGACIÓN DESKTOP ================= */
+/* ================= NAVEGACIÓN ================= */
 .nav {
   position: relative;
 }
@@ -101,8 +98,10 @@ body {
   font-weight: 600;
   font-size: 0.95rem;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   padding: 0.5rem 0;
   position: relative;
+  transition: color 0.3s ease;
 }
 
 .nav-list a::after {
@@ -126,7 +125,7 @@ body {
   color: #f5c400;
 }
 
-/* ================= BOTÓN HAMBURGUESA ================= */
+/* ================= MENÚ MÓVIL ================= */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -134,42 +133,123 @@ body {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0.5rem;
 }
 
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background-color: #ffffff;
+  background-color: #fff;
+  transition: all 0.3s ease;
 }
 
 /* ================= HERO ================= */
 .hero {
-  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   padding: 6rem 0;
   text-align: center;
-  color: #fff;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(245, 196, 0, 0.03) 10px,
+    rgba(245, 196, 0, 0.03) 20px
+  );
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(245, 196, 0, 0.1) 0%,
+    transparent 70%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: #f5c400;
+  color: #000;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  border-radius: 2px;
 }
 
 .hero h1 {
   font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
   font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
 }
 
 .hero-description {
   max-width: 750px;
-  margin: 1.5rem auto 2.5rem;
+  margin: 0 auto 2.5rem;
   font-size: 1.15rem;
   color: #e0e0e0;
+  line-height: 1.7;
+}
+
+.hero-features {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.feature-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #f5c400;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
 /* ================= BOTONES ================= */
 .btn-primary {
+  display: inline-block;
   background-color: #f5c400;
   color: #000;
   padding: 1rem 2.5rem;
-  font-weight: 700;
   text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 2px;
   border: 2px solid #f5c400;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -177,6 +257,73 @@ body {
   color: #f5c400;
 }
 
+.btn-secondary {
+  display: inline-block;
+  background: transparent;
+  color: #fff;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  font-weight: 700;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+@media (max-width: 768px) {
+
+  .header {
+    padding: 0.8rem 0;
+  }
+
+  .header-content {
+    padding: 0 1rem;
+  }
+
+  .logo-link {
+    gap: 0.6rem;
+  }
+
+  .logo img {
+    height: 40px; /* un poco más compacto */
+  }
+
+  .logo-title {
+    font-size: 0.95rem;
+    white-space: nowrap; /* evita que se parta */
+  }
+
+  .logo-subtitle {
+    font-size: 0.65rem;
+  }
+}
+@media (max-width: 480px) {
+  .hero {
+    padding: 4rem 0;
+  }
+
+  .hero-description {
+    padding: 0 0.5rem;
+  }
+}
 /* ================= WHATSAPP FLOAT ================= */
 .whatsapp-float {
   position: fixed;
@@ -185,103 +332,123 @@ body {
   width: 58px;
   height: 58px;
   background-color: #25D366;
+  color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  z-index: 2000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ================= MENÚ MÓVIL OVERLAY (ESTILO APP) ================= */
+.whatsapp-float svg {
+  width: 30px;
+  height: 30px;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
+}
+
+/* Ajuste en móviles */
+@media (max-width: 480px) {
+  .whatsapp-float {
+    width: 52px;
+    height: 52px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .whatsapp-float svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* ================= MENÚ MÓVIL OVERLAY FULLSCREEN ================= */
 @media (max-width: 768px) {
 
-  .menu-toggle {
-    display: flex;
-    z-index: 3001;
-  }
-
-  .nav-list {
-    position: fixed;
-    inset: 0;
-    background-color: #1c1f24;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-
-    padding-top: 70px;
-
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-100%);
-    transition: transform 0.35s ease, opacity 0.35s ease;
-
-    z-index: 2500;
-  }
-
-  .nav-list.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-  }
-
-  /* Header del menú móvil */
-  .mobile-menu-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: #22262c;
-    display: flex;
-    align-items: center;
-    padding-left: 16px;
-  }
-
-  .close-menu {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 22px;
-    cursor: pointer;
-  }
-
-  /* Items tipo app */
-  .nav-list li {
-    border-bottom: 1px solid #2b2f36;
-  }
-
-  .nav-list li a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 18px 20px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #ffffff;
-    text-transform: none;
-  }
-
-  .nav-list li a::after {
-    content: "›";
-    font-size: 1.4rem;
-    color: #f5c400;
-  }
-
-  .nav-list li a:hover,
-  .nav-list li a.active {
-    background-color: #23272e;
-    color: #f5c400;
-  }
+/* Botón hamburguesa */
+.menu-toggle {
+  display: flex;
+  z-index: 3000;
+  position: relative;
 }
 
-/* ================= BLOQUEO SCROLL ================= */
-body.menu-open {
-  overflow: hidden;
+/* Menú pantalla completa con fondo negro */
+.nav-list {
   position: fixed;
-  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+
+  z-index: 2500;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-list li {
+  list-style: none;
+}
+
+.nav-list li a {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.nav-list li a:hover,
+.nav-list li a.active {
+  color: #f5c400;
+}
+
+/* Ajustes visuales mobile */
+.logo img {
+  height: 40px;
+}
+
+.logo-title {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.logo-subtitle {
+  font-size: 0.65rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+}
+}
+
+/* Bloqueo de scroll cuando el menú está abierto */
+body.menu-open {
+overflow: hidden;
+position: fixed;
+width: 100%;
 }
   
     
