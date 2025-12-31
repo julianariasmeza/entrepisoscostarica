@@ -1,63 +1,53 @@
 // ================= ENTREPISOS COSTA RICA - MAIN JS =================
 console.log("Entrepisos Costa Rica - sitio cargado correctamente");
 
-// ================= MENÚ MÓVIL =================
+// ======================================================
+// MENÚ MÓVIL FULLSCREEN
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.querySelector(".menu-toggle");
   const navList = document.querySelector(".nav-list");
   const navLinks = document.querySelectorAll(".nav-list a");
   const body = document.body;
 
-  if (menuToggle && navList) {
-    menuToggle.addEventListener("click", () => {
-      navList.classList.toggle("active");
-      menuToggle.classList.toggle("active");
-      body.classList.toggle("menu-open");
+  if (!menuToggle || !navList) return;
 
-      const spans = menuToggle.querySelectorAll("span");
-      if (menuToggle.classList.contains("active")) {
-        spans[0].style.transform = "rotate(45deg) translate(7px, 7px)";
-        spans[1].style.opacity = "0";
-        spans[2].style.transform = "rotate(-45deg) translate(7px, -7px)";
-      } else {
-        spans.forEach(span => {
-          span.style.transform = "none";
-          span.style.opacity = "1";
-        });
-      }
-    });
-  }
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navList.classList.toggle("active");
+    menuToggle.classList.toggle("active", isOpen);
+    body.classList.toggle("menu-open", isOpen);
+
+    const spans = menuToggle.querySelectorAll("span");
+    if (isOpen) {
+      spans[0].style.transform = "rotate(45deg) translate(6px, 6px)";
+      spans[1].style.opacity = "0";
+      spans[2].style.transform = "rotate(-45deg) translate(6px, -6px)";
+    } else {
+      spans.forEach(span => {
+        span.style.transform = "none";
+        span.style.opacity = "1";
+      });
+    }
+  });
 
   navLinks.forEach(link => {
     link.addEventListener("click", () => {
-      if (window.innerWidth <= 768 && navList && menuToggle) {
-        navList.classList.remove("active");
-        menuToggle.classList.remove("active");
-        body.classList.remove("menu-open");
-
-        const spans = menuToggle.querySelectorAll("span");
-        spans.forEach(span => {
-          span.style.transform = "none";
-          span.style.opacity = "1";
-        });
-      }
-    });
-  });
-
-  document.addEventListener("click", e => {
-    if (
-      navList &&
-      navList.classList.contains("active") &&
-      !e.target.closest(".nav")
-    ) {
       navList.classList.remove("active");
       menuToggle.classList.remove("active");
       body.classList.remove("menu-open");
-    }
+
+      const spans = menuToggle.querySelectorAll("span");
+      spans.forEach(span => {
+        span.style.transform = "none";
+        span.style.opacity = "1";
+      });
+    });
   });
 });
 
-// ================= HEADER SCROLL =================
+// ======================================================
+// HEADER - EFECTO SCROLL
+// ======================================================
 const header = document.querySelector(".header");
 
 if (header) {
@@ -69,7 +59,9 @@ if (header) {
   });
 }
 
-// ================= SMOOTH SCROLL =================
+// ======================================================
+// SMOOTH SCROLL CON OFFSET DEL HEADER
+// ======================================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", e => {
     const target = document.querySelector(anchor.getAttribute("href"));
@@ -81,12 +73,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         window.pageYOffset -
         headerHeight;
 
-      window.scrollTo({ top: position, behavior: "smooth" });
+      window.scrollTo({
+        top: position,
+        behavior: "smooth"
+      });
     }
   });
 });
 
-// ================= ANIMACIONES DE ENTRADA =================
+// ======================================================
+// ANIMACIONES DE ENTRADA (SERVICIOS / VENTAJAS)
+// ======================================================
 const observerOptions = {
   threshold: 0.15,
   rootMargin: "0px 0px -50px 0px"
@@ -113,7 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ================= ANIMACIÓN HERO =================
+// ======================================================
+// ANIMACIÓN DE ENTRADA HERO
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const hero = document.querySelector(".hero-content");
   if (hero) {
@@ -128,15 +127,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ================= DETECCIÓN DE PÁGINA ACTIVA =================
+// ======================================================
+// DETECCIÓN DE PÁGINA ACTIVA EN EL MENÚ
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
-  const current = window.location.pathname.split("/").pop() || "index.html";
+  const currentPage =
+    window.location.pathname.split("/").pop() || "index.html";
+
   document.querySelectorAll(".nav-list a").forEach(link => {
-    link.classList.toggle("active", link.getAttribute("href") === current);
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === currentPage
+    );
   });
 });
 
-// ================= LAZY LOADING DE IMÁGENES =================
+// ======================================================
+// LAZY LOADING DE IMÁGENES
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
   const images = document.querySelectorAll("img[data-src]");
   if (!("IntersectionObserver" in window)) return;
@@ -155,9 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
   images.forEach(img => imgObserver.observe(img));
 });
 
-// ================= LOG DE CARGA =================
+// ======================================================
+// LOG DE TIEMPO DE CARGA (DEBUG)
+// ======================================================
 window.addEventListener("load", () => {
-  if (window.performance) {
+  if (window.performance && window.performance.timing) {
     const time =
       window.performance.timing.domContentLoadedEventEnd -
       window.performance.timing.navigationStart;
